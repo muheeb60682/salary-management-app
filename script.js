@@ -1,4 +1,4 @@
-const API_URL = 'https://salary-management-app-abc.vercel.app/api/employees';
+const API_URL = 'https://salary-management-app-seven.vercel.app/api/employees';
 // 1. Navigation Controller
 function showSection(sectionId) {
     document.getElementById('form-section').classList.add('hidden');
