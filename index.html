@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Bio-Data & Salary Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Top Navigation Bar -->
+    <header class="no-print">
+        <div class="nav-container">
+            <h2>Employee Management System</h2>
+            <nav>
+                <button onclick="showSection('form-section')">Data Entry Form</button>
+                <button onclick="showSection('slip-section')">Printable Bio-Data / Slip</button>
+                <button onclick="showSection('list-section')">All Employees List</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <!-- SECTION 1: DATA ENTRY FORM -->
+        <section id="form-section" class="card">
+            <h2 class="form-heading">Employee Bio-Data & Pay Entry Form</h2>
+            <form id="employee-form" onsubmit="handleFormSubmit(event)">
+                
+                <fieldset>
+                    <legend>Personal Information</legend>
+                    <div class="grid-3">
+                        <div>
+                            <label>Personnel Number *</label>
+                            <input type="text" id="personnelNumber" required placeholder="e.g. 50709498">
+                        </div>
+                        <div>
+                            <label>Full Name *</label>
+                            <input type="text" id="name" required placeholder="e.g. MUHEEB ULLAH">
+                        </div>
+                        <div>
+                            <label>Father / Husband Name</label>
+                            <input type="text" id="fatherName" placeholder="e.g. FAZAL HALIM">
+                        </div>
+                        <div>
+                            <label>CNIC Number *</label>
+                            <input type="text" id="cnic" required placeholder="e.g. 1560603534795">
+                        </div>
+                        <div>
+                            <label>Date of Birth</label>
+                            <input type="date" id="dateOfBirth">
+                        </div>
+                        <div>
+                            <label>Entry into Govt Service</label>
+                            <input type="date" id="entryDate">
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Employment & Station Details</legend>
+                    <div class="grid-3">
+                        <div>
+                            <label>Designation</label>
+                            <input type="text" id="designation" placeholder="e.g. DATA ENTRY OPERATOR">
+                        </div>
+                        <div>
+                            <label>Pay Scale (BPS)</label>
+                            <input type="number" id="bps" placeholder="15">
+                        </div>
+                        <div>
+                            <label>Pay Stage</label>
+                            <input type="number" id="payStage" placeholder="3">
+                        </div>
+                        <div>
+                            <label>DDO Code</label>
+                            <input type="text" id="ddoCode" placeholder="SH0001-DEC-SHANGLA">
+                        </div>
+                        <div>
+                            <label>GPF Account No.</label>
+                            <input type="text" id="gpfAccNo" placeholder="00000018">
+                        </div>
+                        <div>
+                            <label>GPF Balance (PKR)</label>
+                            <input type="number" id="gpfBalance" placeholder="4290.00">
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Pay & Allowances (PKR)</legend>
+                    <div class="grid-4">
+                        <div>
+                            <label>Basic Pay</label>
+                            <input type="number" id="basicPay" value="0" oninput="calculateTotals()">
+                        </div>
+                        <div>
+                            <label>House Rent Allowance</label>
+                            <input type="number" id="houseRent" value="0" oninput="calculateTotals()">
+                        </div>
+                        <div>
+                            <label>Conveyance Allowance</label>
+                            <input type="number" id="conveyance" value="0" oninput="calculateTotals()">
+                        </div>
+                        <div>
+                            <label>Medical Allowance</label>
+                            <input type="number" id="medical" value="0" oninput="calculateTotals()">
+                        </div>
+                        <div>
+                            <label>Computer Allowance</label>
+                            <input type="number" id="computerAllowance" value="0" oninput="calculateTotals()">
+                        </div>
+                        <div>
+                            <label>Election Allowance (@20%)</label>
+                            <input type="number" id="electionAllowance" value="0" oninput="calculateTotals()">
+                        </div>
+                        <div>
+                            <label>Adhoc Reliefs / Extra Allow.</label>
+                            <input type="number" id="adhocRelief" value="0" oninput="calculateTotals()">
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Deductions (PKR)</legend>
+                    <div class="grid-3">
+                        <div>
+                            <label>GPF Subscription</label>
+                            <input type="number" id="gpfDeduction" value="0" oninput="calculateTotals()">
+                        </div>
+                        <div>
+                            <label>Benevolent Fund</label>
+                            <input type="number" id="benevolentFund" value="0" oninput="calculateTotals()">
+                        </div>
+                        <div>
+                            <label>Income Tax</label>
+                            <input type="number" id="incomeTax" value="0" oninput="calculateTotals()">
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- Calculation Summary Preview -->
+                <div class="summary-card">
+                    <div><strong>Gross Pay:</strong> Rs. <span id="previewGross">0.00</span></div>
+                    <div><strong>Total Deductions:</strong> Rs. <span id="previewDeductions">0.00</span></div>
+                    <div><strong>Net Pay:</strong> Rs. <span id="previewNet">0.00</span></div>
+                </div>
+
+                <fieldset>
+                    <legend>Banking & Address Information</legend>
+                    <div class="grid-2">
+                        <div>
+                            <label>Account Number</label>
+                            <input type="text" id="accountNumber" placeholder="1934004515931198">
+                        </div>
+                        <div>
+                            <label>Bank & Branch Details</label>
+                            <input type="text" id="bankDetails" placeholder="NATIONAL BANK OF PAKISTAN, ALPURAI">
+                        </div>
+                        <div>
+                            <label>Email Address</label>
+                            <input type="email" id="email" placeholder="muheeb60682@gmail.com">
+                        </div>
+                        <div>
+                            <label>Domicile / Permanent Address</label>
+                            <input type="text" id="address" placeholder="SWAT / Shangla, KPK">
+                        </div>
+                    </div>
+                </fieldset>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-save">Save Record</button>
+                    <button type="button" class="btn btn-clear" onclick="clearForm()">Clear Form</button>
+                </div>
+
+            </form>
+        </section>
+
+        <!-- SECTION 2: PRINTABLE BIO-DATA / PAY SLIP VIEW -->
+        <section id="slip-section" class="card hidden">
+            <div class="no-print slip-controls">
+                <button class="btn btn-print" onclick="window.print()">Print This Statement</button>
+            </div>
+
+            <div class="print-document">
+                <div class="doc-header">
+                    <h3>Government of Pakistan</h3>
+                    <h4>District Accounts Office Shangla</h4>
+                    <h5>Monthly Salary Statement & Bio-Data</h5>
+                </div>
+
+                <div class="doc-section-title">Personal Information</div>
+                <table class="doc-table">
+                    <tr>
+                        <td><strong>Personnel Number:</strong> <span id="viewPersonnelNumber">-</span></td>
+                        <td><strong>CNIC:</strong> <span id="viewCnic">-</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Name:</strong> <span id="viewName">-</span></td>
+                        <td><strong>Father/Husband Name:</strong> <span id="viewFatherName">-</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Date of Birth:</strong> <span id="viewDob">-</span></td>
+                        <td><strong>Entry into Govt Service:</strong> <span id="viewEntryDate">-</span></td>
+                    </tr>
+                </table>
+
+                <div class="doc-section-title">Employment Information</div>
+                <table class="doc-table">
+                    <tr>
+                        <td><strong>Designation:</strong> <span id="viewDesignation">-</span></td>
+                        <td><strong>Pay Scale (BPS):</strong> <span id="viewBps">-</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>DDO Code:</strong> <span id="viewDdoCode">-</span></td>
+                        <td><strong>GPF A/C No:</strong> <span id="viewGpfAccNo">-</span></td>
+                    </tr>
+                </table>
+
+                <div class="doc-section-title">Pay, Allowances & Deductions</div>
+                <table class="doc-table data-grid">
+                    <thead>
+                        <tr>
+                            <th>Pay & Allowances</th>
+                            <th>Amount (PKR)</th>
+                            <th>Deductions</th>
+                            <th>Amount (PKR)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Basic Pay</td>
+                            <td id="viewBasicPay">0.00</td>
+                            <td>GPF Subscription</td>
+                            <td id="viewGpfDeduction">0.00</td>
+                        </tr>
+                        <tr>
+                            <td>House Rent Allowance</td>
+                            <td id="viewHouseRent">0.00</td>
+                            <td>Benevolent Fund</td>
+                            <td id="viewBenevolentFund">0.00</td>
+                        </tr>
+                        <tr>
+                            <td>Conveyance Allowance</td>
+                            <td id="viewConveyance">0.00</td>
+                            <td>Income Tax</td>
+                            <td id="viewIncomeTax">0.00</td>
+                        </tr>
+                        <tr>
+                            <td>Medical Allowance</td>
+                            <td id="viewMedical">0.00</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>Computer Allowance</td>
+                            <td id="viewComputer">0.00</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>Election Allowance</td>
+                            <td id="viewElection">0.00</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>Adhoc Reliefs / Extra</td>
+                            <td id="viewAdhoc">0.00</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table class="doc-table summary-table">
+                    <tr>
+                        <td><strong>Gross Pay:</strong> Rs. <span id="viewGrossPay">0.00</span></td>
+                        <td><strong>Total Deductions:</strong> Rs. <span id="viewTotalDeductions">0.00</span></td>
+                        <td><strong>Net Pay:</strong> Rs. <span id="viewNetPay">0.00</span></td>
+                    </tr>
+                </table>
+
+                <div class="doc-section-title">Banking & Contact Details</div>
+                <table class="doc-table">
+                    <tr>
+                        <td><strong>Account Number:</strong> <span id="viewAccNo">-</span></td>
+                        <td><strong>Bank Details:</strong> <span id="viewBankDetails">-</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Email:</strong> <span id="viewEmail">-</span></td>
+                        <td><strong>Permanent Address:</strong> <span id="viewAddress">-</span></td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <!-- SECTION 3: ALL EMPLOYEES LIST VIEW -->
+        <section id="list-section" class="card hidden">
+            <div class="list-header no-print">
+                <h2>All Employee Records</h2>
+                <button class="btn btn-print" onclick="window.print()">Print Master List</button>
+            </div>
+
+            <div class="print-document">
+                <table class="master-table">
+                    <thead>
+                        <tr>
+                            <th>P. Number</th>
+                            <th>Name</th>
+                            <th>Designation</th>
+                            <th>BPS</th>
+                            <th>Gross Pay</th>
+                            <th>Net Pay</th>
+                            <th class="no-print">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="employee-table-body">
+                        <!-- Dynamic rows inserted by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
